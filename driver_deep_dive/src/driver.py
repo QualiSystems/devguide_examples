@@ -4,6 +4,12 @@ from cloudshell.shell.core.context import InitCommandContext, ResourceCommandCon
 
 class DriverDeepDiveDriver (ResourceDriverInterface):
 
+    def __init__(self):
+        """
+        ctor must be without arguments, it is created with reflection at run time
+        """
+        pass
+
     def cleanup(self):
         """
         Destroy the driver session, this function is called everytime a driver instance is destroyed
@@ -11,11 +17,20 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
         """
         pass
 
-    def __init__(self):
+    def return_simple_string(self, context):
         """
-        ctor must be without arguments, it is created with reflection at run time
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
         """
-        pass
+        return "Some string return value"
+
+    def return_complex_object(self, context):
+        """
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
+        """
+        return context
+
 
     def initialize(self, context):
         """
