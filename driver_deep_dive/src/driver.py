@@ -31,6 +31,13 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
         """
         return context
 
+    def failed_command(self, context):
+        """
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
+        """
+        raise Exception("Failed to run command")
+
 
     def initialize(self, context):
         """
