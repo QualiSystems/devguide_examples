@@ -1,6 +1,7 @@
-from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
-from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext
+from time import sleep
 
+from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
+from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext, CancellationContext
 
 class DriverDeepDiveDriver (ResourceDriverInterface):
 
@@ -37,6 +38,18 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
         :param ResourceCommandContext context: the context the command runs on
         """
         raise Exception("Failed to run command")
+
+
+    def cancellable_command(self, context, cancellation_context):
+        """
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
+        :param CancellationContext cancellation_context: an object used to signal a request to cancel the operation
+        """
+        counter = 0
+        while counter < 1000 and not cancellation_context.is_cancelled:
+            counter += 1
+            sleep(1)
 
 
     def initialize(self, context):

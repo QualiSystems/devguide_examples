@@ -1,3 +1,9 @@
 <Driver Description="Describe the purpose of your CloudShell shell" MainClass="driver.DriverDeepDiveDriver" Name="DriverDeepDiveDriver" Version="1.0.0">
+    <Layout>
+            <Command Description=""  EnableCancellation="true" Name="cancellable_command"  />
+
+
+    </Layout>
+
 
 </Driver>
