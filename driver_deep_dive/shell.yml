@@ -1,0 +1,7 @@
+shell:
+    name: driver_deep_dive
+    author: Anonymous
+    email: info@quali.com
+    description: Describe the purpose of your CloudShell shell
+    version: 0.1.0
+    driver_name: DriverDeepDiveDriver
