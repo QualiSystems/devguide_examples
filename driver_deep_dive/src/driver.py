@@ -1,7 +1,9 @@
 from time import sleep
 
+from cloudshell.api.cloudshell_api import CloudShellAPISession
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext, CancellationContext
+from cloudshell.shell.core.cloudshell_session import CloudShellSessionContext
 
 class DriverDeepDiveDriver (ResourceDriverInterface):
 
@@ -51,6 +53,27 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
             counter += 1
             sleep(1)
 
+
+    def use_cloudshell_api_session(self, context):
+        """
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
+        :param CancellationContext cancellation_context: an object used to signal a request to cancel the operation
+        """
+        session = CloudShellAPISession(host=context.connectivity.server_address, token_id=context.connectivity.admin_auth_token,
+                                       domain=context.reservation.domain)
+
+
+    def use_cloudshell_api_session_with_helpers(self, context):
+        """
+        A simple example function returning a string
+        :param ResourceCommandContext context: the context the command runs on
+        :param CancellationContext cancellation_context: an object used to signal a request to cancel the operation
+        """
+
+        with CloudShellSessionContext(context):
+            session = CloudShellAPISession(host=context.connectivity.server_address, token_id=context.connectivity.admin_auth_token,
+                                       domain=context.reservation.domain)
 
     def initialize(self, context):
         """
