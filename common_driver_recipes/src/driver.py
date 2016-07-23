@@ -1,5 +1,4 @@
 from cloudshell.api.cloudshell_api import CloudShellAPISession
-from cloudshell.shell.core.cloudshell_session import CloudShellSessionContext
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext
 
@@ -35,11 +34,11 @@ class CommonDriverRecipesDriver (ResourceDriverInterface):
         session = CloudShellAPISession(host=context.connectivity.server_address,
                                        token_id=context.connectivity.admin_auth_token,
                                        domain=context.reservation.domain)
-        
+
         password = session.DecryptPassword(context.resource.attributes['Password']).Value
 
 
-    def decrypt_password(self, context):
+    def update_resource_status(self, context):
         """
         A simple example function
         :param ResourceCommandContext context: the context the command runs on
@@ -48,4 +47,9 @@ class CommonDriverRecipesDriver (ResourceDriverInterface):
                                        token_id=context.connectivity.admin_auth_token,
                                        domain=context.reservation.domain)
 
-        password = session.DecryptPassword(context.resource.attributes['Password']).Value
+        session.SetResourceLiveStatus(context.resource.name, "Offline" )
+        for i in range(0,10):
+            session.SetResourceLiveStatus(context.resource.name, "Progress {status}".format(status=str(i*10)))
+
+
+        session.SetResourceLiveStatus(context.resource.name, "Online" )
