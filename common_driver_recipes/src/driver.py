@@ -53,3 +53,19 @@ class CommonDriverRecipesDriver (ResourceDriverInterface):
 
 
         session.SetResourceLiveStatus(context.resource.name, "Online" )
+
+
+    def update_resource_status_to_console(self, context):
+        """
+        A simple example function
+        :param ResourceCommandContext context: the context the command runs on
+        """
+        session = CloudShellAPISession(host=context.connectivity.server_address,
+                                       token_id=context.connectivity.admin_auth_token,
+                                       domain=context.reservation.domain)
+
+        session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Starting operation")
+        for i in range(0, 10):
+            session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Progress as {status}%".format(status=str(i * 10)))
+
+        session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Done - service online")
