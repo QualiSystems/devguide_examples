@@ -42,22 +42,20 @@ class ImplementingDiscoveryDriver (ResourceDriverInterface):
           AutoLoadResource(model='Generic Power Port', name='Power Port', address='1/PP1')]
 
 
-        # a_root1 = AutoLoadAttribute('', 'Location', 'Santa Clara Lab')
-        # a_root2 = AutoLoadAttribute('', 'Model', 'Catalyst 3850')
-        # a_root3 = AutoLoadAttribute('', 'Vendor', 'Cisco')
-        # a1 = AutoLoadAttribute('1', 'Serial Number', 'JAE053002JD')
-        # a2 = AutoLoadAttribute('1', 'Model', 'WS-X4232-GB-RJ')
-        # a3 = AutoLoadAttribute('1/1', 'Model', 'WS-X4233-GB-EJ')
-        # a4 = AutoLoadAttribute('1/1', 'Serial Number', 'RVE056702UD')
-        # a5 = AutoLoadAttribute('1/1/1', 'Mac_Address', 'fe80::e10c:f055:f7f1:bb7t16')
-        # a6 = AutoLoadAttribute('1/1/1', 'IPv4 Address', '192.168.10.7')
-        # a7 = AutoLoadAttribute('1/1/2', 'Mac_Address', 'te67::e40c:g755:f55y:gh7w36')
-        # a8 = AutoLoadAttribute('1/1/2', 'IPv4 Address', '192.168.10.9')
-        # a9 = AutoLoadAttribute('1/PP1', 'Model', 'WS-X4232-GB-RJ')
-        # a10 = AutoLoadAttribute('1/PP1', 'Port Description', 'Power')
-        # a11 = AutoLoadAttribute('1/PP1', 'Serial Number', 'RVE056702UD')
-        #
-        # attributes = [a_root1, a_root2, a_root3, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11]
+        attributes = [ AutoLoadAttribute(relative_address='', attribute_name='Location', attribute_value='Santa Clara Lab'),
+                       AutoLoadAttribute('', 'Model', 'Catalyst 3850'),
+                       AutoLoadAttribute('', 'Vendor', 'Cisco'),
+                       AutoLoadAttribute('1', 'Serial Number', 'JAE053002JD'),
+                       AutoLoadAttribute('1', 'Model', 'WS-X4232-GB-RJ'),
+                       AutoLoadAttribute('1/1', 'Model', 'WS-X4233-GB-EJ'),
+                       AutoLoadAttribute('1/1', 'Serial Number', 'RVE056702UD'),
+                       AutoLoadAttribute('1/1/1', 'Mac_Address', 'fe80::e10c:f055:f7f1:bb7t16'),
+                       AutoLoadAttribute('1/1/1', 'IPv4 Address', '192.168.10.7'),
+                       AutoLoadAttribute('1/1/2', 'Mac_Address', 'te67::e40c:g755:f55y:gh7w36'),
+                       AutoLoadAttribute('1/1/2', 'IPv4 Address', '192.168.10.9'),
+                       AutoLoadAttribute('1/PP1', 'Model', 'WS-X4232-GB-RJ'),
+                       AutoLoadAttribute('1/PP1', 'Port Description', 'Power'),
+                       AutoLoadAttribute('1/PP1', 'Serial Number', 'RVE056702UD')]
 
-        result = AutoLoadDetails(sub_resources,[])
+        result = AutoLoadDetails(sub_resources,attributes)
         return result
