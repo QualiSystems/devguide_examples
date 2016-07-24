@@ -1,6 +1,6 @@
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.driver_context import InitCommandContext, ResourceCommandContext, AutoLoadResource, \
-    AutoLoadAttribute, AutoLoadDetails
+    AutoLoadAttribute, AutoLoadDetails, AutoLoadCommandContext
 
 
 class ImplementingDiscoveryDriver (ResourceDriverInterface):
@@ -32,14 +32,14 @@ class ImplementingDiscoveryDriver (ResourceDriverInterface):
     # which includes details about the resource hierarchy and attributes
     def get_inventory(self, context):
         """
-        :type context: drivercontext.AutoLoadCommandContext
+        :type context: AutoLoadCommandContext
         """
         # Add sub resources details
-        sub_resources = [ AutoLoadResource(model ='Generic Chassis',name= 'Chassis 1', address='1'),
-          AutoLoadResource(model='Generic Module',name= 'Module 1',address= '1/1'),
-          AutoLoadResource(model='Generic Port',name= 'Port 1', address='1/1/1'),
-          AutoLoadResource(model='Generic Port', name='Port 2', address='1/1/2'),
-          AutoLoadResource(model='Generic Power Port', name='Power Port', address='1/PP1')]
+        sub_resources = [ AutoLoadResource(model ='Generic Chassis',name= 'Chassis 1', relative_address='1'),
+          AutoLoadResource(model='Generic Module',name= 'Module 1',relative_address= '1/1'),
+          AutoLoadResource(model='Generic Port',name= 'Port 1', relative_address='1/1/1'),
+          AutoLoadResource(model='Generic Port', name='Port 2', relative_address='1/1/2'),
+          AutoLoadResource(model='Generic Power Port', name='Power Port', relative_address='1/PP1')]
 
 
         attributes = [ AutoLoadAttribute(relative_address='', attribute_name='Location', attribute_value='Santa Clara Lab'),
@@ -49,13 +49,14 @@ class ImplementingDiscoveryDriver (ResourceDriverInterface):
                        AutoLoadAttribute('1', 'Model', 'WS-X4232-GB-RJ'),
                        AutoLoadAttribute('1/1', 'Model', 'WS-X4233-GB-EJ'),
                        AutoLoadAttribute('1/1', 'Serial Number', 'RVE056702UD'),
-                       AutoLoadAttribute('1/1/1', 'Mac_Address', 'fe80::e10c:f055:f7f1:bb7t16'),
+                       AutoLoadAttribute('1/1/1', 'MAC Address', 'fe80::e10c:f055:f7f1:bb7t16'),
                        AutoLoadAttribute('1/1/1', 'IPv4 Address', '192.168.10.7'),
-                       AutoLoadAttribute('1/1/2', 'Mac_Address', 'te67::e40c:g755:f55y:gh7w36'),
+                       AutoLoadAttribute('1/1/2', 'MAC Address', 'te67::e40c:g755:f55y:gh7w36'),
                        AutoLoadAttribute('1/1/2', 'IPv4 Address', '192.168.10.9'),
                        AutoLoadAttribute('1/PP1', 'Model', 'WS-X4232-GB-RJ'),
                        AutoLoadAttribute('1/PP1', 'Port Description', 'Power'),
                        AutoLoadAttribute('1/PP1', 'Serial Number', 'RVE056702UD')]
 
         result = AutoLoadDetails(sub_resources,attributes)
+
         return result
