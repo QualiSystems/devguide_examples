@@ -1,0 +1,17 @@
+<Driver Description="Describe the purpose of your CloudShell shell" MainClass="driver.ImplementingDiscoveryDriver" Name="ImplementingDiscoveryDriver" Version="1.0.0">
+    <Layout>
+        <Category Name="App Management">
+            <Command Description="Just your regular example command" DisplayName="Example Command" Name="example_function" />
+            <Command Description="Just your regular example command with parameters" DisplayName="Command With Params"
+                     Name="example_function_with_params" >
+                <Parameters>
+                    <Parameter Name="user_param1" Type="String" Mandatory = "True" DefaultValue="Somem default"
+                               DisplayName="String Param" Description="Some example string input"/>
+                    <Parameter Name="user_param2" Type="Lookup" Mandatory = "True" AllowedValues="Yes,No"
+                               DefaultValue="Yes" DisplayName="Lookup Param" Description="Some example lookup input"/>
+                </Parameters>
+            </Command>
+
+        </Category>
+    </Layout>
+</Driver>
