@@ -35,11 +35,11 @@ class ImplementingDiscoveryDriver (ResourceDriverInterface):
         :type context: drivercontext.AutoLoadCommandContext
         """
         # Add sub resources details
-        sub_resources = [ AutoLoadResource('Generic Chassis', 'Chassis 1', '1'),
-          AutoLoadResource('Generic Module', 'Module 1', '1/1'),
-          AutoLoadResource('Generic Port', 'Port 1', '1/1/1'),
-          AutoLoadResource('Generic Port', 'Port 2', '1/1/2'),
-          AutoLoadResource('Generic Power Port', 'Power Port', '1/PP1')]
+        sub_resources = [ AutoLoadResource(model ='Generic Chassis',name= 'Chassis 1', address='1'),
+          AutoLoadResource(model='Generic Module',name= 'Module 1',address= '1/1'),
+          AutoLoadResource(model='Generic Port',name= 'Port 1', address='1/1/1'),
+          AutoLoadResource(model='Generic Port', name='Port 2', address='1/1/2'),
+          AutoLoadResource(model='Generic Power Port', name='Power Port', address='1/PP1')]
 
 
         # a_root1 = AutoLoadAttribute('', 'Location', 'Santa Clara Lab')
@@ -59,6 +59,5 @@ class ImplementingDiscoveryDriver (ResourceDriverInterface):
         #
         # attributes = [a_root1, a_root2, a_root3, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11]
 
-        result = AutoLoadDetails()
-        result.resources=sub_resources
+        result = AutoLoadDetails(sub_resources,[])
         return result
