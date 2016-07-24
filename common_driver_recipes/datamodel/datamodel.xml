@@ -205,7 +205,7 @@
 
          </AttributeValues>
      <ParentModels>
-       <ParentModelName>DriverDeepDive</ParentModelName>
+       <ParentModelName>CommonDriverRecipes</ParentModelName>
      </ParentModels>
      <Drivers />
      <Scripts />
@@ -239,7 +239,7 @@
             <AttributeValue Name="Port Description" Value="" />
         </AttributeValues>
 	    <ParentModels>
-            <ParentModelName>DriverDeepDive</ParentModelName>
+            <ParentModelName>CommonDriverRecipes</ParentModelName>
           </ParentModels>
           <Drivers />
           <Scripts />
@@ -249,6 +249,6 @@
     </ResourceFamily>
   </ResourceFamilies>
   <DriverDescriptors>
-      <DriverDescriptor Name="DriverDeepDiveDriver" DriverType="PythonDriver" />
+      <DriverDescriptor Name="CommonDriverRecipesDriver" DriverType="PythonDriver" />
   </DriverDescriptors>
 </DataModelInfo>
