@@ -20,13 +20,13 @@ def try_execute_command_on_resources(session, reservation_id, command_name, comm
     for resource in session.GetReservationDetails(reservation_id).ReservationDescription.Resources:
         try:
             result = session.ExecuteCommand(reservation_id, resource.Name, "Resource", command_name, command_inputs)
-            results[resource.Name]=result.Output
+            results[resource.Name] = result.Output
 
         except CloudShellAPIError as exc:
             # Ignore the error if the command doesn't exist on the resource or its not assigned a driver
             if exc.code not in (NO_DRIVER_ERR,DRIVER_FUNCTION_ERROR):
                 raise
-
+    return results
 
 def main():
 
