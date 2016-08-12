@@ -58,7 +58,6 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
         """
         A simple example function returning a string
         :param ResourceCommandContext context: the context the command runs on
-        :param CancellationContext cancellation_context: an object used to signal a request to cancel the operation
         """
         session = CloudShellAPISession(host=context.connectivity.server_address, token_id=context.connectivity.admin_auth_token,
                                        domain=context.reservation.domain)
@@ -68,7 +67,6 @@ class DriverDeepDiveDriver (ResourceDriverInterface):
         """
         A simple example function returning a string
         :param ResourceCommandContext context: the context the command runs on
-        :param CancellationContext cancellation_context: an object used to signal a request to cancel the operation
         """
 
         with CloudShellSessionContext(context) as session:
