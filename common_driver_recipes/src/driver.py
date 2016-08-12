@@ -66,6 +66,6 @@ class CommonDriverRecipesDriver (ResourceDriverInterface):
 
         session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Starting operation")
         for i in range(0, 10):
-            session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Progress as {status}%".format(status=str(i * 10)))
+            session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Progress at {status}%".format(status=str(i * 10)))
 
         session.WriteMessageToReservationOutput(context.reservation.reservation_id, "Done - service online")
