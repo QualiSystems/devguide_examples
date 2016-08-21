@@ -21,12 +21,12 @@ def main():
     Example workflow of starting a sandbox, waiting for it to setup, then stopping it
     :return:
     """
-    connectivity_params = QualiConnectivityParams(api_service_host='10.211.55.4', domain='Global',
+    connectivity_params = QualiConnectivityParams(api_service_host='localhost', domain='Global',
                                                   password='admin', username='admin')
     inputs = BlueprintInputs(global_inputs=[UpdateTopologyGlobalInputsRequest('Target Cloud', 'AWS')])
 
     with SandboxContext(connectivity_params=connectivity_params,
-                        blueprint_name='AWS Simple Demo1', duration=120,
+                        blueprint_name='Simple Blueprint1', duration=120,
                         blueprint_inputs=inputs) as sandbox:
         run_some_tests_or_other_code(sandbox)
 

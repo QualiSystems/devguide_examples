@@ -22,11 +22,11 @@ def main():
     :return:
     """
 
-    session = CloudShellAPISession('10.211.55.4', "admin", "admin", "Global")
+    session = CloudShellAPISession('localhost', "admin", "admin", "Global")
     # Create the sandbox
     sandbox = session.CreateImmediateTopologyReservation('test sandbox', owner='admin',
                                                          durationInMinutes=120,
-                                                         topologyFullPath='AWS Simple Demo1',
+                                                         topologyFullPath='Simple Blueprint1',
                                                          globalInputs=[UpdateTopologyGlobalInputsRequest('Target Cloud', 'AWS')]).Reservation
 
     sandbox_details = SandboxHelpers().wait_for_sandbox_setup(sandbox.Id, session,10)
