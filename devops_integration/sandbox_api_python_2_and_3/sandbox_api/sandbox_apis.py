@@ -41,7 +41,7 @@ class SandboxStates:
     TEARDOWN_COMPLETE_STATE = 'Ended'
 
 
-class RESTAPIExamples:
+class SandboxRESTAPI:
     def __init__(self, hostname, api_port):
         self.hostname = hostname
         self.api_port = api_port
@@ -107,31 +107,33 @@ class RESTAPIExamples:
 
     def wait_for_sandbox_setup(self, sandbox_id):
         """
+        Blocks until sandbox setup concludes successfully raises error otherwise
         :param str sandbox_id: Sandbox id
-        :return: Blocks until sandbox setup concludes successfully raises error otherwise
+        :return: The post setup sandbox description
         """
-        self._wait_for_sandbox_state(sandbox_id, SandboxStates.AFTER_SETUP_STATE,
+        return self._wait_for_sandbox_state(sandbox_id, SandboxStates.AFTER_SETUP_STATE,
                                      [SandboxStates.PENDING_SETUP_STATE,
                                       SandboxStates.IN_SETUP_STATE], 10)
 
     def wait_for_sandbox_teardown(self, sandbox_id):
         """
+        Blocks until sandbox teardown concludes successfully raises error otherwise
         :param str sandbox_id: Sandbox id
-        :return: Blocks until sandbox teardown concludes successfully raises error otherwise
+        :return: The post teardown sandbox description
         """
-        self._wait_for_sandbox_state(sandbox_id, SandboxStates.TEARDOWN_COMPLETE_STATE,
+        return self._wait_for_sandbox_state(sandbox_id, SandboxStates.TEARDOWN_COMPLETE_STATE,
                                      [SandboxStates.IN_TEARDOWN_STATE,
                                       SandboxStates.AFTER_SETUP_STATE], 10)
 
     # <editor-fold desc="Private functions and helpers">
-    def _get_sandbox_state(self, sandbox_id):
+    def _get_sandbox_details(self, sandbox_id):
         url = 'http://{hostname}:{api_port}/api/v1/sandboxes/{sandbox_id}' \
             .format(hostname=self.hostname, api_port=self.api_port, sandbox_id=sandbox_id)
         response = requests.get(url, auth=self.token_auth)
         self._ensure_response_success(response)
         response_text = self.python_version_compatible_response_text(response)
 
-        state = jsonpickle.loads(response_text)['state']
+        state = jsonpickle.loads(response_text)
         return state
 
     @staticmethod
@@ -156,12 +158,14 @@ class RESTAPIExamples:
         :param int polling_frequency: number of seconds to wait between each polling attempt
         :return: Will return when target state is reached
         """
-        sandbox_state = self._get_sandbox_state(sandbox_id)
-        while not sandbox_state == target_state:
-            if sandbox_state not in allowed_transition_states:
-                raise Exception('Sandbox setup error or unknown state: {state}'.format(state=sandbox_state))
+        sandbox_details = self._get_sandbox_details(sandbox_id)
+        while not sandbox_details['state'] == target_state:
+            if sandbox_details['state'] not in allowed_transition_states:
+                raise Exception('Sandbox setup error or unknown state: {state}'.format(state=sandbox_details['state']))
             time.sleep(polling_frequency)
-            sandbox_state = self._get_sandbox_state(sandbox_id)
+            sandbox_details = self._get_sandbox_details(sandbox_id)
+        return sandbox_details
+
 
     @staticmethod
     def _ensure_response_success(response):
@@ -169,19 +173,3 @@ class RESTAPIExamples:
             raise Exception("Could not start sandbox: {text}".format(text=response.text.encode('ascii')))
     # </editor-fold>
 
-
-def main():
-    """
-    Example workflow of starting a sandbox, waiting for it to setup, then stopping it
-    :return:
-    """
-    api_example = RESTAPIExamples('10.211.55.4', '8080')
-    api_example.login("admin", "admin", "Global")
-    sandbox_id = api_example.start_sandbox('AWS Simple Demo', datetime.timedelta(hours=2), 'test')
-    api_example.wait_for_sandbox_setup(sandbox_id)
-    api_example.stop_sandbox(sandbox_id)
-    api_example.wait_for_sandbox_teardown(sandbox_id)
-
-
-if __name__ == "__main__":
-    main()
