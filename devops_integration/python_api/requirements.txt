@@ -1,0 +1,2 @@
+jsonpickle
+cloudshell-automation-api>=7.1,<7.2
