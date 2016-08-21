@@ -3,6 +3,7 @@ import datetime
 import jsonpickle
 import requests
 import isodate
+import sys
 from requests.auth import AuthBase
 import time
 
@@ -46,6 +47,15 @@ class RESTAPIExamples:
         self.api_port = api_port
         self.token_auth = None
 
+
+    @staticmethod
+    def python_version_compatible_response_text(response):
+        if sys.version_info >= (3, 0):
+            return response.text
+        else:
+            return response.content
+
+
     def login(self, user, password, domain):
         login = requests.put('http://{hostname}:{api_port}/api/login'
                              .format(hostname=self.hostname, api_port=self.api_port),
@@ -53,7 +63,10 @@ class RESTAPIExamples:
                                    'password': self._in_quotes(password),
                                    'domain': self._in_quotes(domain)})
 
-        token = self._without_quotes(login.content.encode('ascii'))
+        self._ensure_response_success(login)
+
+        response_text = self.python_version_compatible_response_text(login)
+        token = self._without_quotes(response_text)
 
         self.token_auth = QualiTokenAuth(token)
 
@@ -76,7 +89,9 @@ class RESTAPIExamples:
 
         self._ensure_response_success(response)
 
-        return jsonpickle.loads(response.content)['id']
+        response_text = self.python_version_compatible_response_text(response)
+
+        return jsonpickle.loads(response_text)['id']
 
     def stop_sandbox(self, sandbox_id):
         """
@@ -114,7 +129,9 @@ class RESTAPIExamples:
             .format(hostname=self.hostname, api_port=self.api_port, sandbox_id=sandbox_id)
         response = requests.get(url, auth=self.token_auth)
         self._ensure_response_success(response)
-        state = jsonpickle.loads(response.content)['state']
+        response_text = self.python_version_compatible_response_text(response)
+
+        state = jsonpickle.loads(response_text)['state']
         return state
 
     @staticmethod
@@ -149,7 +166,7 @@ class RESTAPIExamples:
     @staticmethod
     def _ensure_response_success(response):
         if not response.status_code == 200:
-            raise Exception("Could not start sandbox: {text}".format(text=response.text))
+            raise Exception("Could not start sandbox: {text}".format(text=response.text.encode('ascii')))
     # </editor-fold>
 
 
@@ -163,7 +180,7 @@ def main():
     sandbox_id = api_example.start_sandbox('AWS Simple Demo', datetime.timedelta(hours=2), 'test')
     api_example.wait_for_sandbox_setup(sandbox_id)
     api_example.stop_sandbox(sandbox_id)
-    # api_example.wait_for_sandbox_teardown(sandbox_id)
+    api_example.wait_for_sandbox_teardown(sandbox_id)
 
 
 if __name__ == "__main__":
